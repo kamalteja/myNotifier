@@ -8,11 +8,15 @@ description = "Runs supplied plugins and sends out notifications to slack webhoo
 readme = "readme.md"
 requires-python = ">=3.11"
 classifiers = [
-    "Programming Language :: Python :: 3.1",
+    "Programming Language :: Python :: 3.11",
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "freerider@git+https://github.com/kamalteja/webscraper#subdirectory=freerider-scrapper"
+    "freerider@git+https://github.com/kamalteja/webscraper#subdirectory=freerider-scrapper",
+    "slackeventsapi",
+    "slackclient",
+    "flask",
+    "gunicorn"
 ]
 
 [project.scripts]

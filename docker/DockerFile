@@ -1,0 +1,33 @@
+ARG PROJECT=slack_bot
+ARG APP_PATH=/opt/app/${PROJECT}
+
+FROM python:3.11 as python_3
+
+ARG APP_PATH
+ARG PROJECT
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN apt-get update && apt-get upgrade -y
+RUN pip install --upgrade pip
+RUN pip install pip-tools
+
+WORKDIR ${APP_PATH}
+
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+# Installing code
+COPY wsgi.py wsgi.py
+COPY hello.py hello.py
+
+FROM nginx:latest as nginx
+
+ARG PROJECT
+ARG APP_PATH
+
+RUN apt-get update && apt-get upgrade -y
+
+RUN mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.back
+COPY docker/slack-bot.nginx.conf /etc/nginx/conf.d/
