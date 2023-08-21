@@ -1,27 +1,21 @@
 [project]
 name = "myNotifier"
 version = "0.0.1"
-authors = [
-  { name="Kamal Gurramkonda", email="root@localhost" },
-]
+authors = [{ name = "Kamal Gurramkonda", email = "root@localhost" }]
 description = "Runs supplied plugins and sends out notifications to slack webhook"
 readme = "readme.md"
 requires-python = ">=3.11"
 classifiers = [
-    "Programming Language :: Python :: 3.11",
-    "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.11",
+  "Operating System :: OS Independent",
 ]
 dependencies = [
-    "freerider@git+https://github.com/kamalteja/webscraper#subdirectory=freerider-scrapper",
-    "slackeventsapi",
-    "slackclient",
-    "flask",
-    "gunicorn"
+  "freerider@git+https://github.com/kamalteja/webscraper#subdirectory=freerider-scrapper",
+  "slackeventsapi",
+  "slackclient",
+  "flask",
+  "gunicorn",
 ]
-
-[project.scripts]
-myNotifier = "main:main"
-
 
 [project.urls]
 "Homepage" = "https://github.com/kamalteja/myNotifier"
