@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  slack_bot:
+    image: grkamalteja/slack_bot:latest
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: slack_bot
+    container_name: slack_bot
+    restart: unless-stopped
+    command: sh -c 'cd scripts && gunicorn wsgi:app --bind slack_bot:8000'
+    # command: python scripts/wsgi.py
+    volumes:
+      - /home/ansible/repo/myNotifier/scripts/:/opt/app/slack_bot/scripts/
+    env_file:
+      - .env
+
+  slack_bot_nginx_proxy:
+    image: grkamalteja/slack_bot_nginx_proxy:latest
+    container_name: slack_bot_nginx_proxy
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: nginx
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    depends_on:
+      - slack_bot
