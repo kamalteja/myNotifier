@@ -1,53 +1,34 @@
-"""Slack Bot"""
-
 import logging
 import os
-from dataclasses import dataclass
 
-import slack
-from flask import Flask, Response, request
+from flask import Flask, Response, render_template, request
 from freerider.arguments import rider_arguments
 from freerider.plugins.hertz import hertz_rides
+
+from notifier import get_static_dir, get_template_dir
+from notifier.lib.slack.client import SlackCommandException, SlackForm
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=os.environ.get("SLACK_BOT_LOGLEVEL", "INFO"))
 
-app = Flask(__name__)
-slack_client = slack.WebClient(os.environ["SLACK_BOT_TOKEN"])
+earth_app = Flask(
+    __name__, template_folder=get_template_dir(), static_folder=get_static_dir()
+)
 
 
-class SlackCommandException(ValueError):
-    """Exception caused during slash command execution"""
-
-
-@dataclass
-class SlackForm:
-    """Represents slack post data (over webhook)"""
-
-    token: str
-    team_id: str
-    team_domain: str
-    channel_id: str
-    channel_name: str
-    user_id: str
-    user_name: str
-    command: str
-    text: str
-    api_app_id: str
-    is_enterprise_install: str
-    response_url: str
-    trigger_id: str
-
-
-@app.route("/", methods=["GET"])
+@earth_app.route("/", methods=["GET"])
 def hello():
     """Welcome message for the slack-bot app"""
-    return "Earth is up and running!!", 200
+    print(get_template_dir())
+    return Response(render_template("earth.html"), 200)
 
 
-@app.route("/ride", methods=["POST"])
+@earth_app.route("/ride", methods=["POST"])
 def ride():
-    """Correlates to /ride slash command"""
+    """
+    Correlates to /ride slash command
+    Looks up requested rides against the rider scrapper
+    """
 
     def get_rider_args(data: str):
         stations = data.split(":")
@@ -83,5 +64,6 @@ def ride():
     return Response("\n".join(ride_details), 200)
 
 
-if __name__ == "__main__":
-    app.run(debug=True, port=8000, host="0.0.0.0")
+@earth_app.route("/notify-ride", methods=["POST"])
+def notify_ride():
+    """Performs recurring lookup for free ride availability"""

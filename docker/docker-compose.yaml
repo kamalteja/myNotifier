@@ -9,10 +9,10 @@ services:
       target: slack_bot
     container_name: slack_bot
     restart: unless-stopped
-    command: sh -c 'cd scripts && gunicorn wsgi:app --bind slack_bot:8000'
-    # command: python scripts/wsgi.py
+    command: sh -c 'cd notifier && gunicorn wsgi:earth_app --bind slack_bot:8000'
+    # command: python notifier/wsgi.py
     volumes:
-      - /home/ansible/repo/myNotifier/scripts/:/opt/app/slack_bot/scripts/
+      - /home/ansible/repo/myNotifier/notifier/:/opt/app/slack_bot/notifier
     env_file:
       - .env
 
