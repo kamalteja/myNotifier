@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EARTH</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='earth.css') }}">
+    <link rel="icon" href="https://img.icons8.com/color/96/earth-planet--v2.png">
+
+</head>
+
+<body>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <section id="turnglobe">
+        <p id="globesarecool" style="color: cadetblue;">Earth is runnnning!!</p>
+
+        <div id="worldmap"></div>
+        <script src="{{ url_for('static', filename='earth.js') }}"></script>
+
+    </section>
+</body>
+
+</html>

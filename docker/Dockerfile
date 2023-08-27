@@ -15,13 +15,12 @@ RUN pip install pip-tools
 
 WORKDIR ${APP_PATH}
 
-COPY readme.md readme.md
-COPY pyproject.toml pyproject.toml
-RUN pip-compile --resolver=backtracking -o requirements.txt -v
-RUN pip install -r requirements.txt
-
 # Installing code
-COPY scripts/ scripts/
+COPY notifier/ notifier/
+COPY pyproject.toml pyproject.toml
+COPY readme.md readme.md
+COPY makefile makefile
+RUN make install
 
 FROM nginx:latest as nginx
 
