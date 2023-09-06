@@ -14,7 +14,9 @@ dependencies = [
   "slackeventsapi",
   "slackclient",
   "flask",
+  "flask_migrate",
   "gunicorn",
+  "Flask-SQLAlchemy",
 ]
 
 [project.urls]

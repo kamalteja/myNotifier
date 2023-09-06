@@ -1,13 +1,10 @@
+"""Slack client interface to communicate with slack"""
 import os
 from dataclasses import dataclass
 
 import slack
 
 slack_client = slack.WebClient(os.environ["SLACK_BOT_TOKEN"])
-
-
-class SlackCommandException(ValueError):
-    """Exception caused during slash command execution"""
 
 
 @dataclass
