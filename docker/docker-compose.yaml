@@ -10,9 +10,8 @@ services:
     container_name: slack_bot
     restart: unless-stopped
     command: sh -c 'cd notifier && gunicorn wsgi:earth_app --bind slack_bot:8000'
-    # command: python notifier/wsgi.py
     volumes:
-      - /home/ansible/repo/myNotifier/notifier/:/opt/app/slack_bot/notifier
+      - slack_bot_db:/tmp/db
     env_file:
       - .env
 
@@ -28,3 +27,7 @@ services:
       - 8080:80
     depends_on:
       - slack_bot
+
+volumes:
+  slack_bot_db:
+    external: false
