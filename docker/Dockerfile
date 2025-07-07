@@ -1,7 +1,7 @@
 ARG PROJECT=slack_bot
 ARG APP_PATH=/opt/app/${PROJECT}
 
-FROM python:3.11 as slack_bot
+FROM python:3.13 as slack_bot
 
 ARG APP_PATH
 ARG PROJECT
